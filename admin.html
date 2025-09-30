@@ -3,24 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Paneli</title>
+    <title>Admin Sayfası</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-     <nav>
-        <a href="index.html">Ana Sayfa</a>
-    </nav>
     <div class="container">
-        <h1>Admin Paneli</h1>
-        <div class="admin-controls">
-            <button id="fetchAllUsersBtn">Bütün Kullanıcıları Getir</button>
-            <button id="fetchAllShoppersBtn">Bütün Müşterileri Getir</button>
-        </div>
-        <div id="user-list">
-            <p>Veri getirmek için bir butona tıklayın.</p>
+        <div class="main-panel">
+            <h1>Admin Sayfası</h1>
+            <div class="nav-buttons">
+                <button onclick="location.href='user-management.html'">Kullanıcı Yönetimi</button>
+                <button disabled>Ürün Yönetimi (Pasif)</button>
+            </div>
+             <button id="logoutButton" class="logout-button">Çıkış Yap</button>
         </div>
     </div>
-    
-    <script src="js/admin.js"></script>
+    <script>
+        // Sayfa yüklendiğinde token kontrolü
+        if (!localStorage.getItem('jwtToken')) {
+            window.location.href = 'login.html';
+        }
+
+        document.getElementById('logoutButton').addEventListener('click', () => {
+            localStorage.removeItem('jwtToken');
+            window.location.href = 'login.html';
+        });
+    </script>
 </body>
 </html>
