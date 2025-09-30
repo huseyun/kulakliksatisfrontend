@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcı Yönetimi</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="nav-panel">
+            <h2>Kullanıcı Yönetim Paneli</h2>
+            <div class="nav-buttons">
+                <button class="nav-btn" data-target="all-users-section">Tüm Kullanıcılar</button>
+                <button class="nav-btn" data-target="admins-section">Adminler</button>
+                <button class="nav-btn" data-target="sellers-section">Satıcılar</button>
+                <button class="nav-btn" data-target="shoppers-section">Müşteriler</button>
+                <button onclick="location.href='admin.html'">Ana Sayfaya Dön</button>
+            </div>
+        </div>
+
+        <div class="content-panel">
+            <div id="all-users-section" class="management-section active-section">
+                <h3>Tüm Kullanıcılar</h3>
+                <div class="management-grid">
+                    <div class="user-list-container">
+                        <h4>Kullanıcı Listesi ve Arama</h4>
+                        <div class="search-area">
+                             <button id="fetchAllUsersBtn">Tümünü Getir</button>
+                        </div>
+                        <div class="results-box" id="allUsersResults">
+                           </div>
+                        <p id="allUsersCount">... sonuç bulundu.</p>
+                        <div class="action-buttons">
+                            <button disabled>Güncelle</button>
+                            <button disabled>Sil</button>
+                        </div>
+                    </div>
+                    <div class="add-user-container">
+                        <h4>Yeni Kullanıcı Ekle</h4>
+                        <form id="addUserForm">
+                            <input type="text" name="username" placeholder="Kullanıcı Adı" required>
+                            <input type="password" name="password" placeholder="Şifre" required>
+                            <input type="email" name="email" placeholder="E-posta" required>
+                            <div class="role-selection">
+                                <label>Rolü:</label>
+                                <input type="checkbox" id="role_user" name="role" value="2"> <label for="role_user">Müşteri/Satıcı (USER)</label>
+                                <input type="checkbox" id="role_admin" name="role" value="1"> <label for="role_admin">Admin (ADMIN)</label>
+                            </div>
+                            <button type="submit">Ekle</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div id="admins-section" class="management-section">
+                <h3>Adminler</h3>
+                <div class="search-area">
+                    <button id="fetchAllAdminsBtn">Adminleri Getir</button>
+                </div>
+                <div class="results-box" id="adminsResults"></div>
+                <p id="adminsCount">... sonuç bulundu.</p>
+                 <div class="action-buttons">
+                    <button disabled>Güncelle</button>
+                    <button disabled>Sil</button>
+                </div>
+            </div>
+
+            <div id="sellers-section" class="management-section">
+                 <h3>Satıcılar</h3>
+                <div class="management-grid">
+                    <div class="user-list-container">
+                        <div class="search-area">
+                           <button id="fetchAllSellersBtn">Satıcıları Getir</button>
+                        </div>
+                        <div class="results-box" id="sellersResults"></div>
+                        <p id="sellersCount">... sonuç bulundu.</p>
+                        <div class="action-buttons">
+                           <button disabled>Güncelle</button>
+                           <button disabled>Sil</button>
+                       </div>
+                    </div>
+                    <div class="add-user-container">
+                        <h4>Satıcıya Ait Ürünler</h4>
+                        <div class="results-box" id="sellerItemsResults">
+                            <p>Listeden bir satıcı seçin.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="shoppers-section" class="management-section">
+                <h3>Müşteriler</h3>
+                 <div class="search-area">
+                    <button id="fetchAllShoppersBtn">Müşterileri Getir</button>
+                </div>
+                <div class="results-box" id="shoppersResults"></div>
+                <p id="shoppersCount">... sonuç bulundu.</p>
+                 <div class="action-buttons">
+                    <button disabled>Güncelle</button>
+                    <button disabled>Sil</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="updateModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Kullanıcıyı Güncelle</h2>
+            <form id="updateUserForm">
+                <input type="hidden" id="updateUserId" name="id">
+                <div class="form-group">
+                    <label for="updateUsername">Kullanıcı Adı:</label>
+                    <input type="text" id="updateUsername" name="username" readonly>
+                </div>
+                 <div class="form-group">
+                    <label for="updateEmail">E-posta:</label>
+                    <input type="email" id="updateEmail" name="email">
+                </div>
+                <div id="updateSellerFields" class="specific-fields">
+                     <div class="form-group">
+                        <label for="updateCompanyName">Şirket Adı:</label>
+                        <input type="text" id="updateCompanyName" name="company_name">
+                    </div>
+                </div>
+                <div id="updateShopperFields" class="specific-fields">
+                     <div class="form-group">
+                        <label for="updateFirstName">Ad:</label>
+                        <input type="text" id="updateFirstName" name="firstName">
+                    </div>
+                     <div class="form-group">
+                        <label for="updateLastName">Soyad:</label>
+                        <input type="text" id="updateLastName" name="lastName">
+                    </div>
+                </div>
+                <button type="submit">Güncelle</button>
+            </form>
+        </div>
+    </div>
+
+
+    <script src="js/user-management.js"></script>
+</body>
+</html>

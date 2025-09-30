@@ -3,27 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giriş Yap</title>
+    <title>Admin Girişi</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="container">
-        <div class="login-form">
-            <h2>Giriş Yap</h2>
-            <form id="login-form">
-                <div>
+        <div class="login-container">
+            <h1>Yönetici Girişi</h1>
+            <form id="loginForm">
+                <div class="form-group">
                     <label for="username">Kullanıcı Adı:</label>
-                    <input type="text" id="username" name="username" required>
+                    <input type="text" id="username" name="username" value="admin" required>
                 </div>
-                <div>
+                <div class="form-group">
                     <label for="password">Şifre:</label>
-                    <input type="password" id="password" name="password" required>
+                    <input type="password" id="password" name="password" value="adminpass" required>
                 </div>
                 <button type="submit">Giriş Yap</button>
-                <div id="error-message" style="color: red; margin-top: 10px;"></div>
             </form>
+            <p id="errorMessage" class="error-message"></p>
         </div>
     </div>
-    <script src="js/login.js"></script>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const username = this.username.value;
+            const password = this.password.value;
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = '';
+
+            try {
+                const response = await fetch('http://localhost:8080/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem('jwtToken', data.token);
+                    window.location.href = 'admin.html';
+                } else {
+                    errorMessage.textContent = 'Kullanıcı adı veya şifre hatalı!';
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                errorMessage.textContent = 'Bir hata oluştu. Lütfen tekrar deneyin.';
+            }
+        });
+    </script>
 </body>
 </html>
