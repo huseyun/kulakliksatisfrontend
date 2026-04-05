@@ -3,7 +3,7 @@ import { useAuthStore } from '../store/useAuthStore';
 import toast from 'react-hot-toast';
 
 const axiosClient = axios.create({
-  baseURL: '', // Vite Proxy üzerinden otomatik http://localhost:8080/api... 'ye gidecek.
+  baseURL: import.meta.env.VITE_API_URL || '', // Vite Proxy üzerinden otomatik http://localhost:8080/api... 'ye gidecek.
   headers: {
     'Content-Type': 'application/json',
   },
