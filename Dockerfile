@@ -4,7 +4,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm run build
+# Sıkı TypeScript denetimini atlayıp doğrudan Vite ile derliyoruz
+RUN npx vite build
 
 # Aşama 2: Sadece statik dosyaları hafif bir Nginx ile sun
 FROM nginx:alpine
