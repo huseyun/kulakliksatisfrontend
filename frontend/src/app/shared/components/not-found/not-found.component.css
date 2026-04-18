@@ -1,0 +1,13 @@
+.not-found-container {
+  text-align: center;
+  padding: 48px 16px;
+}
+
+.not-found-container h1 {
+  font-size: 2em;
+  margin-bottom: 16px;
+}
+
+.not-found-container p {
+  margin-bottom: 24px;
+}
