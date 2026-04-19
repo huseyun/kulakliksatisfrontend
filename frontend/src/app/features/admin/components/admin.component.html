@@ -1,0 +1,25 @@
+<div class="admin-layout">
+  <!-- Sol Navigasyon -->
+  <mat-nav-list class="admin-nav">
+    <a mat-list-item 
+       [class.active]="selectedPage === 'products'" 
+       (click)="onPageSelect('products')"
+       class="nav-item">
+      <mat-icon matListIcon>shopping_cart</mat-icon>
+      <span matLine>Ürünler</span>
+    </a>
+    <a mat-list-item 
+       [class.active]="selectedPage === 'users'" 
+       (click)="onPageSelect('users')"
+       class="nav-item">
+      <mat-icon matListIcon>people</mat-icon>
+      <span matLine>Kullanıcılar</span>
+    </a>
+  </mat-nav-list>
+
+  <!-- Sağ İçerik Alanı -->
+  <div class="admin-content">
+    <app-admin-products *ngIf="selectedPage === 'products'"></app-admin-products>
+    <app-admin-users *ngIf="selectedPage === 'users'"></app-admin-users>
+  </div>
+</div>

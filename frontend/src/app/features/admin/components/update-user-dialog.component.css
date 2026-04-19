@@ -1,0 +1,17 @@
+.user-form {
+  min-width: 400px;
+  padding: 20px 0;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-dialog-content {
+  padding: 0 24px;
+}
+
+mat-dialog-actions {
+  padding: 16px 24px;
+  border-top: 1px solid #e0e0e0;
+}

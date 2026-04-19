@@ -1,13 +1,14 @@
 # PROJE KURALLARI — DEĞİŞTİRİLEMEZ
 
-## 1. DOKUNULMAZ ALANLAR
+## 1. BACKEND KLASÖRÜ — YETKİ SINIRLAMASI
 
-`kulakliksatisapi/` klasörü kesinlikle READ-ONLY'dir.
+`kulakliksatisapi/` klasörü AI (Roo) için READ-ONLY'dir. Kullanıcı istediği zaman değiştirebilir.
 
-- Bu klasördeki hiçbir dosyayı oluşturma, değiştirme veya silme.
-- Sadece okuyup referans olarak kullan.
-- Controller'lardaki endpoint'leri, DTO'ları, Service'leri sadece anlamak için oku.
-- Backend'e hiçbir koşulda dokunma. "Kullanıcı istedi" bile olsa dokunma.
+- AI (Roo) bu klasördeki hiçbir dosyayı oluşturamaz, değiştiremez veya silemez.
+- AI (Roo) sadece okuyup referans olarak kullanabilir.
+- Controller'lardaki endpoint'leri, DTO'ları, Service'leri, ErrorCode'ları sadece anlamak için oku.
+- AI (Roo) backend'e hiçbir koşulda dokunmaz. "Kullanıcı istedi" bile olsa dokunmaz.
+- Kullanıcı backend'de değişiklik yaptığında frontend'in uyumlu olduğundan emin ol (DTO'lar, ErrorCode'lar).
 
 ## 2. UI FRAMEWORK
 
@@ -91,8 +92,20 @@ Backend'deki endpoint'leri SADECE kullanıcı açıkça belirttiğinde kullan.
 - Backend klasörüne hiçbir koşulda dokunma
 - Kullanıcının "şunu ekle" demediği bir özelliği kendi kendine ekleme
 - Angular Material dışında UI framework ekleme
+- Backend'den gelen teknik hata mesajlarını (message alanı) kullanıcıya gösterme
+- Her zaman errorCode üzerinden ErrorMessageService ile kullanıcı dostu mesaj göster
 
-## 7. KOD YAZIM STANDARTLARI
+## 7. ERROR CODE YÖNETİMİ
+
+Backend'de EErrorCode enum ve ErrorResponse'e errorCode alanı eklendi.
+
+- Kullanıcı backend'de yeni errorCode eklediğinde frontend'de de EErrorCode enum güncellenmeli
+- ErrorMessageService'de yeni errorCode için Türkçe kullanıcı mesajı eklenmeli
+- Backend teknik mesajları (message alanı) asla kullanıcıya gösterilmez, sadece console.warn ile loglanır
+- errorCode varsa ErrorMessageService.getUserMessage() kullanılır, yoksa fallback mesaj gösterilir
+- Mevcut ErrorCode → Mesaj mapping'i CONTEXT.md'de belgelenmiştir
+
+## 8. KOD YAZIM STANDARTLARI
 
 - Strict typing: her değişken, parametre ve dönüş tipi belirtilmeli
 - Interface'ler models/ klasörüne, service'ler features/[name]/services/'e
