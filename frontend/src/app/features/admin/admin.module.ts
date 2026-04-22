@@ -19,6 +19,7 @@ import { AdminProductsComponent } from './components/admin-products.component';
 import { AdminUsersComponent } from './components/admin-users.component';
 import { ChangePasswordDialogComponent } from './components/change-password-dialog.component';
 import { UpdateUserDialogComponent } from './components/update-user-dialog.component';
+import { DeleteUserDialogComponent } from './components/delete-user-dialog.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { UpdateUserDialogComponent } from './components/update-user-dialog.compo
     AdminProductsComponent,
     AdminUsersComponent,
     ChangePasswordDialogComponent,
-    UpdateUserDialogComponent
+    UpdateUserDialogComponent,
+    DeleteUserDialogComponent
   ],
   imports: [
     CommonModule,

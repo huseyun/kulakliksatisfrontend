@@ -8,6 +8,7 @@ import { AdminUsersService } from '../services/admin-users.service';
 import { UserResponse } from '../../../models/user.model';
 import { ChangePasswordDialogComponent } from './change-password-dialog.component';
 import { UpdateUserDialogComponent } from './update-user-dialog.component';
+import { DeleteUserDialogComponent } from './delete-user-dialog.component';
 
 @Component({
   selector: 'app-admin-users',
@@ -73,6 +74,19 @@ export class AdminUsersComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // Password changed successfully, reload users
+        this.loadAllUsers();
+      }
+    });
+  }
+
+  onDeleteUser(user: UserResponse): void {
+    const dialogRef = this.dialog.open(DeleteUserDialogComponent, {
+      width: '450px',
+      data: { user }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
         this.loadAllUsers();
       }
     });

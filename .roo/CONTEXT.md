@@ -42,10 +42,11 @@ src/app/
 │       │   ├── admin.component.ts/html/css (sol navigasyon: Ürünler, Kullanıcılar)
 │       │   ├── admin-products.component.ts/html/css (placeholder)
 │       │   ├── admin-users.component.ts/html/css (mat-table + alt sekmeler)
-│       │   ├── change-password-dialog.component.ts/html/css (şifre değiştirme dialog'u)
-│       │   └── update-user-dialog.component.ts/html/css (bilgi değiştirme dialog'u)
+│       │       ├── change-password-dialog.component.ts/html/css (şifre değiştirme dialog'u)
+│       │       ├── update-user-dialog.component.ts/html/css (bilgi değiştirme dialog'u)
+│       │       └── delete-user-dialog.component.ts/html/css (kullanıcı silme onay dialog'u)
 │       └── services/
-│           └── admin-users.service.ts (getAllUsers, updatePassword, updateUser)
+│           └── admin-users.service.ts (getAllUsers, updatePassword, updateUser, deleteUser)
 ├── models/
 │   ├── auth.model.ts (✅ LoginRequest, LoginResponse, JwtPayload, UserRole, UserInfo)
 │   ├── user.model.ts (✅ EUserType, UserTypeResponse, UserResponse, UserPasswordUpdateRequest, UserUpdateRequest)
@@ -108,6 +109,12 @@ environments/
   - AdminUsersService'te environment.apiUrl kullanılmıyordu, düzeltildi
 - ✅ Faz 22: Bug fix - NG0100 ExpressionChangedAfterItHasBeenCheckedError
   - Dialog component'lerinde next handler'daki gereksiz isLoading = false kaldırıldı
+- ✅ Faz 25: Kullanıcı silme özelliği implement edildi
+  - DeleteUserDialogComponent (MatDialog) — onay dialog'u
+  - Uyarı ikonu + "Bu işlem geri alınamaz" mesajı
+  - AdminUsersService.deleteUser() → DELETE /api/admin/users/{id}
+  - Başarılı işlem sonrası kullanıcı listesi yenileniyor
+  - Sil butonu "Kullanıcı Sil" olarak İşlemler sütununa eklendi
 - ✅ Faz 23: Merkezi Hata Yönetim Sistemi
   - models/error.model.ts: Backend ErrorResponse/ValidationErrorResponse DTO'ları
   - core/services/snackbar.service.ts: showError, showSuccess, showWarning metodları
@@ -193,7 +200,8 @@ environments/
 - ✅ PUT /api/admin/users/{id}/password → UserPasswordUpdateRequest { password } (ENTEGRE EDİLDİ)
   - Kullanıcı şifresini günceller
 - ⬜ GET /api/admin/users/{id} → UserResponse (henüz kullanılmıyor)
-- ⬜ DELETE /api/admin/users/{id} → void (henüz kullanılmıyor)
+- ✅ DELETE /api/admin/users/{id} → void (ENTEGRE EDİLDİ)
+  - Kullanıcı siler
 
 ## Backend Hata Yapısı
 - GlobalExceptionHandler tüm hataları ErrorResponse DTO'su ile döndürüyor

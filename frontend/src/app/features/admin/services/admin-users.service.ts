@@ -22,4 +22,8 @@ export class AdminUsersService {
   updateUser(userId: number, request: UserUpdateRequest): Observable<void> {
     return this.http.put<void>(`${environment.apiUrl}/admin/users/${userId}`, request);
   }
+
+  deleteUser(userId: number): Observable<void> {
+    return this.http.delete<void>(`${environment.apiUrl}/admin/users/${userId}`);
+  }
 }
