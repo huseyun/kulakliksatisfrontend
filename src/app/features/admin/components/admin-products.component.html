@@ -1,0 +1,63 @@
+<div class="admin-products-container">
+  <mat-tab-group animationDuration="0ms">
+    
+    <!-- SEKME 1: Bütün Ürünler -->
+    <mat-tab label="Bütün Ürünler">
+      <div class="tab-content-padding">
+        <app-admin-items-table 
+          [items]="allItems" 
+          [isLoading]="isAllItemsLoading"
+          (delete)="onDeleteFromAll($event)">
+        </app-admin-items-table>
+      </div>
+    </mat-tab>
+
+    <!-- SEKME 2: Satıcıya Göre Ürünler -->
+    <mat-tab label="Satıcıya Göre Ürünler">
+      <div class="seller-split-container">
+        
+        <!-- Sol Taraf: Satıcılar Listesi -->
+        <div class="sellers-sidebar">
+          <h3 class="sidebar-title">Satıcılar</h3>
+          
+          <div *ngIf="isSellersLoading" class="sidebar-loading">
+            <mat-spinner diameter="32"></mat-spinner>
+          </div>
+          
+          <div *ngIf="!isSellersLoading && sellers.length === 0" class="sidebar-empty">
+            Kayıtlı satıcı yok.
+          </div>
+
+          <mat-nav-list *ngIf="!isSellersLoading && sellers.length > 0">
+            <mat-list-item 
+              *ngFor="let seller of sellers" 
+              (click)="onSellerSelect(seller.id)"
+              [class.active-seller]="selectedSellerId === seller.id">
+              <span matListItemTitle>{{ seller.companyName || seller.username }}</span>
+              <span matListItemLine>{{ seller.email }}</span>
+            </mat-list-item>
+          </mat-nav-list>
+        </div>
+
+        <!-- Sağ Taraf: Seçili Satıcının Ürünleri -->
+        <div class="seller-items-content">
+          <div *ngIf="!selectedSellerId" class="select-seller-prompt">
+            <mat-icon>storefront</mat-icon>
+            <h2>Satıcı Seçin</h2>
+            <p>Ürünlerini görmek istediğiniz satıcıyı sol menüden seçin.</p>
+          </div>
+
+          <div *ngIf="selectedSellerId" class="seller-table-wrapper">
+            <app-admin-items-table 
+              [items]="sellerItems" 
+              [isLoading]="isSellerItemsLoading"
+              (delete)="onDeleteFromSeller($event)">
+            </app-admin-items-table>
+          </div>
+        </div>
+
+      </div>
+    </mat-tab>
+
+  </mat-tab-group>
+</div>

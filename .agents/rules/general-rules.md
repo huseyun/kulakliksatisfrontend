@@ -1,14 +1,19 @@
+---
+trigger: always_on
+---
+
 # PROJE KURALLARI — DEĞİŞTİRİLEMEZ
 
 ## 1. BACKEND KLASÖRÜ — YETKİ SINIRLAMASI
 
-`kulakliksatisapi/` klasörü AI (Roo) için READ-ONLY'dir. Kullanıcı istediği zaman değiştirebilir.
+`kulakliksatisapi/` klasörü AI için READ-ONLY'dir. Kullanıcı istediği zaman değiştirebilir.
 
-- AI (Roo) bu klasördeki hiçbir dosyayı oluşturamaz, değiştiremez veya silemez.
-- AI (Roo) sadece okuyup referans olarak kullanabilir.
+- AI bu klasördeki hiçbir dosyayı oluşturamaz, değiştiremez veya silemez.
+- AI sadece okuyup referans olarak kullanabilir.
 - Controller'lardaki endpoint'leri, DTO'ları, Service'leri, ErrorCode'ları sadece anlamak için oku.
-- AI (Roo) backend'e hiçbir koşulda dokunmaz. "Kullanıcı istedi" bile olsa dokunmaz.
+- AI backend'e hiçbir koşulda dokunmaz. "Kullanıcı istedi" bile olsa dokunmaz.
 - Kullanıcı backend'de değişiklik yaptığında frontend'in uyumlu olduğundan emin ol (DTO'lar, ErrorCode'lar).
+- **HATA TESPİTİ:** Eğer frontend kodu yazılırken backend tarafında işlemi engelleyecek bariz bir bug veya eksik endpoint fark edilirse, kod yazımı durdurulup hemen kullanıcıya rapor edilmelidir.
 
 ## 2. UI FRAMEWORK
 
@@ -56,6 +61,7 @@ src/
 
 Bu yapıda olmayan bir klasörü oluşturma.
 Bu yapıdan bir klasörü silme veya taşıma.
+- **Alt Bileşenler (Child Components):** Tekrar eden veya karmaşık UI kısımlarını, aynı feature klasörü altında alt bileşenlere (dumb components) ayırmak şiddetle teşvik edilir (Örn: `admin-items-table`).
 
 ## 4. ÖZELLİK EKLEME SÜRECİ
 
@@ -70,6 +76,7 @@ Adım 6: Feature routing'ini app-routing.module.ts'a ekle
 
 Her adımı tamamladıktan sonra DUR. Kullanıcıya ne yaptığını bildir ve "devam edeyim mi?" diye sor.
 Kullanıcı onay vermeden bir sonraki adıma geçme.
+- **İSTİSNA:** Eğer eklenecek özellik çok küçükse veya kullanıcı sunulan implementasyon planına **toptan onay verdiyse**, adımlar tek tek sorulmadan art arda (topluca) tamamlanabilir.
 
 ## 5. API KULLANIM KURALI
 
@@ -87,13 +94,14 @@ Backend'deki endpoint'leri SADECE kullanıcı açıkça belirttiğinde kullan.
 - Dosyaları taşıma veya yeniden adlandırma
 - any tipi kullanma — her zaman spesifik tip veya interface kullan
 - Constructor içinde business logic yazma (ngOnInit kullan)
-- Observable subscription'larını ngOnDestroy'da temizlemeyi unutma
+- Observable subscription'larını ngOnDestroy'da temizlemeyi unutma (Mümkünse template'te `| async` pipe kullanımını önceliklendir).
 - Kullanıcıdan izin almadan büyük değişiklik yapma
 - Backend klasörüne hiçbir koşulda dokunma
 - Kullanıcının "şunu ekle" demediği bir özelliği kendi kendine ekleme
 - Angular Material dışında UI framework ekleme
 - Backend'den gelen teknik hata mesajlarını (message alanı) kullanıcıya gösterme
 - Her zaman errorCode üzerinden ErrorMessageService ile kullanıcı dostu mesaj göster
+- Strict Rule: Asla otonom kararlar alma. Sadece benden istenen spesifik adımı tamamla. İşi bitirdikten sonra dur ve bir sonraki adım için benim onayımı bekle. Kodu yazarken her zaman ana dizindeki context.md dosyasını bağlam olarak kabul et.
 
 ## 7. ERROR CODE YÖNETİMİ
 
@@ -113,3 +121,4 @@ Backend'de EErrorCode enum ve ErrorResponse'e errorCode alanı eklendi.
 - Component selector'ları app- ön eki ile başlamalı
 - Dosya adlandırma: kebab-case (user-list.component.ts)
 - Class adlandırma: PascalCase (UserListComponent)
+- **Güvenli Template Kodlaması:** HTML'de `(error)="$event.target.src=''"` gibi sonsuz döngü (infinite loop) riski taşıyan atamalar YASAKTIR. Bunun yerine resmi gizleyip (`*ngIf`) placeholder veya ikon (örn: `mat-icon`) gösterilmelidir.

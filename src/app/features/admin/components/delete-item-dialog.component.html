@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>Ürün Sil</h2>
+
+<mat-dialog-content>
+  <div class="delete-warning">
+    <mat-icon class="warning-icon">warning</mat-icon>
+    <p><strong>{{ data.item.title }}</strong> adlı ürünü silmek istediğinize emin misiniz?</p>
+    <p class="warning-text">Bu işlem geri alınamaz.</p>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button
+          (click)="onCancel()"
+          [disabled]="isLoading">
+    İptal
+  </button>
+  <button mat-raised-button
+          color="warn"
+          (click)="onConfirm()"
+          [disabled]="isLoading">
+    <mat-icon *ngIf="isLoading" class="spinner">hourglass_empty</mat-icon>
+    {{ isLoading ? 'Siliniyor...' : 'Sil' }}
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,75 @@
+<!-- Loading Spinner -->
+<div *ngIf="isLoading" class="loading-container">
+  <mat-spinner diameter="48"></mat-spinner>
+  <p>Ürünler yükleniyor...</p>
+</div>
+
+<!-- Ürün Tablosu -->
+<div *ngIf="!isLoading" class="products-table-container">
+  <!-- Boş durum -->
+  <div *ngIf="dataSource.data.length === 0" class="empty-state">
+    <mat-icon>inventory_2</mat-icon>
+    <h2>Henüz ürün bulunmuyor</h2>
+    <p>Görüntülenecek bir ürün yok.</p>
+  </div>
+
+  <!-- Tablo -->
+  <table mat-table [dataSource]="dataSource" class="products-table" *ngIf="dataSource.data.length > 0">
+    <!-- Fotoğraf Sütunu -->
+    <ng-container matColumnDef="thumbnail">
+      <th mat-header-cell *matHeaderCellDef>Fotoğraf</th>
+      <td mat-cell *matCellDef="let item">
+        <img
+          *ngIf="!item['imageError']"
+          [src]="item.thumbnailImageUrl"
+          [alt]="item.title"
+          class="product-thumbnail"
+          (error)="item['imageError'] = true"
+        />
+        <div *ngIf="item['imageError']" class="product-thumbnail placeholder-img">
+          <mat-icon>image_not_supported</mat-icon>
+        </div>
+      </td>
+    </ng-container>
+
+    <!-- ID Sütunu -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let item">{{ item.id }}</td>
+    </ng-container>
+
+    <!-- Ürün Adı Sütunu -->
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef>Ürün Adı</th>
+      <td mat-cell *matCellDef="let item">{{ item.title }}</td>
+    </ng-container>
+
+    <!-- Fiyat Sütunu -->
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef>Fiyat</th>
+      <td mat-cell *matCellDef="let item" class="price-cell">{{ item.price | number:'1.2-2' }} ₺</td>
+    </ng-container>
+
+    <!-- İşlemler Sütunu -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>İşlemler</th>
+      <td mat-cell *matCellDef="let item">
+        <button mat-raised-button
+                color="warn"
+                (click)="onDeleteClick(item)"
+                class="action-button delete-button">
+          Ürün Sil
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator
+    *ngIf="dataSource.data.length > 0"
+    [pageSize]="10"
+    [pageSizeOptions]="[5, 10, 25]"
+  ></mat-paginator>
+</div>

@@ -28,3 +28,11 @@ export interface UserUpdateRequest {
   username: string;
   email: string;
 }
+
+// Backend SellerResponse record karşılığı
+export interface SellerResponse {
+  id: number;
+  username: string;
+  email: string;
+  companyName: string;
+}

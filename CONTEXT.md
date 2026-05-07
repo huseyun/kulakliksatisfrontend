@@ -40,16 +40,21 @@ src/app/
 │       ├── admin-routing.module.ts (RoleGuard ile korumalı)
 │       ├── components/
 │       │   ├── admin.component.ts/html/css (sol navigasyon: Ürünler, Kullanıcılar)
-│       │   ├── admin-products.component.ts/html/css (placeholder)
+│       │   ├── admin-products.component.ts/html/css (✅ ürün listeleme sekmeleri)
+│       │   ├── admin-items-table.component.ts/html/css (ürün mat-table child componenti)
+│       │   ├── delete-item-dialog.component.ts/html/css (ürün silme onay dialog'u)
 │       │   ├── admin-users.component.ts/html/css (mat-table + alt sekmeler)
 │       │       ├── change-password-dialog.component.ts/html/css (şifre değiştirme dialog'u)
 │       │       ├── update-user-dialog.component.ts/html/css (bilgi değiştirme dialog'u)
 │       │       └── delete-user-dialog.component.ts/html/css (kullanıcı silme onay dialog'u)
 │       └── services/
-│           └── admin-users.service.ts (getAllUsers, updatePassword, updateUser, deleteUser)
+│           ├── admin-users.service.ts (getAllUsers, updatePassword, updateUser, deleteUser)
+│           ├── admin-items.service.ts (✅ getAllItems, deleteItem)
+│           └── admin-sellers.service.ts (✅ getAllSellers, getItemsBySellerId)
 ├── models/
 │   ├── auth.model.ts (✅ LoginRequest, LoginResponse, JwtPayload, UserRole, UserInfo)
-│   ├── user.model.ts (✅ EUserType, UserTypeResponse, UserResponse, UserPasswordUpdateRequest, UserUpdateRequest)
+│   ├── user.model.ts (✅ EUserType, UserTypeResponse, UserResponse, UserPasswordUpdateRequest, UserUpdateRequest, SellerResponse)
+│   ├── item.model.ts (✅ ItemSummaryResponse - id, title, price, thumbnailImageUrl)
 │   └── error.model.ts (✅ EErrorCode enum + ErrorResponse, ValidationErrorResponse - backend hata DTO'ları)
 ├── app.module.ts
 ├── app.component.ts/html/css
@@ -115,6 +120,23 @@ environments/
   - AdminUsersService.deleteUser() → DELETE /api/admin/users/{id}
   - Başarılı işlem sonrası kullanıcı listesi yenileniyor
   - Sil butonu "Kullanıcı Sil" olarak İşlemler sütununa eklendi
+- ✅ Faz 26: Admin Ürün Listeleme
+  - admin-products.component placeholder'dan mat-table ürün listesine dönüştürüldü
+  - Sütunlar: Fotoğraf (thumbnail 50x50), ID, Ürün Adı, Fiyat (₺ formatında)
+  - MatPaginator ile sayfalama (10 item/sayfa, [5, 10, 25] seçenekleri)
+  - Loading spinner ve boş durum (empty state) mesajı
+  - AdminItemsService.getAllItems() → GET /api/admin/items kullanılıyor
+  - MatProgressSpinnerModule admin.module.ts'a eklendi
+- ✅ Faz 27: Admin Ürün Silme
+  - Tabloya "İşlemler" sütunu ve kırmızı "Ürün Sil" butonu eklendi.
+  - `delete-item-dialog.component` eklendi (Kullanıcı silme ile aynı onay mantığı).
+  - AdminItemsService.deleteItem(id) metodu eklendi -> `DELETE /api/admin/items/{id}`
+  - Silme başarılı olunca snackbar "Ürün başarıyla silindi" diyor ve liste yenileniyor.
+- ✅ Faz 28: Admin Ürünler - Satıcıya Göre Filtreleme (Tabs)
+  - Admin Ürünler sayfası iki sekmeye ayrıldı: "Bütün Ürünler" ve "Satıcıya Göre Ürünler".
+  - Mat-table kısmı ortak `admin-items-table` component'ine çıkarıldı (Refactoring).
+  - `AdminSellersService` oluşturuldu (`getAllSellers`, `getItemsBySellerId`).
+  - İkinci sekmede sol tarafta mat-nav-list ile satıcılar listelendi, seçildiğinde o satıcının ürünleri sağ tarafta listelendi.
 - ✅ Faz 23: Merkezi Hata Yönetim Sistemi
   - models/error.model.ts: Backend ErrorResponse/ValidationErrorResponse DTO'ları
   - core/services/snackbar.service.ts: showError, showSuccess, showWarning metodları
@@ -157,7 +179,10 @@ environments/
 
 - ✅ Admin Paneli (sadece ROLE_ADMIN erişebilir)
   - Sol navigasyon: Ürünler, Kullanıcılar
-  - Ürünler sekmesi: placeholder (henüz implement edilmedi)
+  - Ürünler sekmesi: 
+    - İki sekmeli yapı: "Bütün Ürünler" ve "Satıcıya Göre Ürünler"
+    - Ortak mat-table bileşeni ile ürün listeleme (thumbnail, id, title, price, sil butonu)
+    - Satıcıya Göre sekmesinde sol menüde satıcılar, sağ alanda seçilen satıcının ürünleri.
   - Kullanıcılar sekmesi:
     - Üst kısımda alt sekmeler: Bütün Kullanıcılar, Adminler, Satıcılar, Alışverişçiler
     - Bütün Kullanıcılar: mat-table ile tüm kullanıcılar listeleniyor
@@ -202,6 +227,14 @@ environments/
 - ⬜ GET /api/admin/users/{id} → UserResponse (henüz kullanılmıyor)
 - ✅ DELETE /api/admin/users/{id} → void (ENTEGRE EDİLDİ)
   - Kullanıcı siler
+- ✅ GET /api/admin/items → ItemSummaryResponse[] (ENTEGRE EDİLDİ)
+  - Tüm ürünleri summary olarak listeler (id, title, price, thumbnailImageUrl)
+- ✅ DELETE /api/admin/items/{id} → void (ENTEGRE EDİLDİ)
+  - Ürün siler
+- ✅ GET /api/admin/sellers → SellerResponse[] (ENTEGRE EDİLDİ)
+  - Tüm satıcıları listeler
+- ✅ GET /api/admin/sellers/{sellerId}/items → ItemSummaryResponse[] (ENTEGRE EDİLDİ)
+  - Seçilen satıcının ürünlerini listeler
 
 ## Backend Hata Yapısı
 - GlobalExceptionHandler tüm hataları ErrorResponse DTO'su ile döndürüyor
@@ -228,9 +261,7 @@ environments/
 - ErrorMessageService ile errorCode → Türkçe mesaj mapping.
 
 ## Sonraki Adım
-- Ürünler sekmesi implement edilebilir (placeholder durumda)
 - Kullanıcılar sekmesindeki diğer alt sekmeler aktifleştirilebilir (Adminler, Satıcılar, Alışverişçiler)
-- Kullanıcı silme özelliği eklenebilir (DELETE endpoint mevcut)
 - Shopper feature'ı oluşturulabilir (sadece ROLE_SHOPPER erişebilir)
 - Seller feature'ı oluşturulabilir (sadece ROLE_SELLER erişebilir)
 

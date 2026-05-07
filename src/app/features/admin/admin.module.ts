@@ -12,6 +12,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './components/admin.component';
@@ -20,6 +21,8 @@ import { AdminUsersComponent } from './components/admin-users.component';
 import { ChangePasswordDialogComponent } from './components/change-password-dialog.component';
 import { UpdateUserDialogComponent } from './components/update-user-dialog.component';
 import { DeleteUserDialogComponent } from './components/delete-user-dialog.component';
+import { DeleteItemDialogComponent } from './components/delete-item-dialog.component';
+import { AdminItemsTableComponent } from './components/admin-items-table.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,9 @@ import { DeleteUserDialogComponent } from './components/delete-user-dialog.compo
     AdminUsersComponent,
     ChangePasswordDialogComponent,
     UpdateUserDialogComponent,
-    DeleteUserDialogComponent
+    DeleteUserDialogComponent,
+    DeleteItemDialogComponent,
+    AdminItemsTableComponent
   ],
   imports: [
     CommonModule,
@@ -44,7 +49,8 @@ import { DeleteUserDialogComponent } from './components/delete-user-dialog.compo
     MatDialogModule,
     MatInputModule,
     MatFormFieldModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatProgressSpinnerModule
   ]
 })
 export class AdminModule { }
