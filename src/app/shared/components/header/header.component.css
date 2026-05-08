@@ -1,3 +1,62 @@
-.spacer {
-  flex: 1 1 auto;
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+}
+
+.navbar-logo {
+  color: white;
+  text-decoration: none;
+  font-size: 1.25rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.navbar-search-container {
+  flex: 1;
+  max-width: 600px;
+  margin: 0 24px;
+  display: flex;
+  align-items: center;
+  padding-top: 16px; /* Material form fields have bottom margin */
+}
+
+.search-field {
+  width: 100%;
+}
+
+::ng-deep .search-field .mat-mdc-text-field-wrapper {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  border-radius: 4px;
+}
+
+::ng-deep .search-field .mat-mdc-form-field-flex {
+  height: 40px;
+  align-items: center;
+}
+
+::ng-deep .search-field input.mat-mdc-input-element {
+  color: white !important;
+}
+
+::ng-deep .search-field input::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+::ng-deep .search-field .mat-mdc-form-field-icon-suffix {
+  color: white;
+}
+
+::ng-deep .search-field .mdc-notched-outline__leading,
+::ng-deep .search-field .mdc-notched-outline__notch,
+::ng-deep .search-field .mdc-notched-outline__trailing {
+  border: none !important;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
 }

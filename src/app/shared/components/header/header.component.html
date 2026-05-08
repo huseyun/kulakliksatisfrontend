@@ -1,5 +1,22 @@
-<mat-toolbar color="primary">
-  <span>Kulaklık Satış</span>
-  <span class="spacer"></span>
-  <span></span>
+<mat-toolbar color="primary" class="navbar">
+  <!-- Left Side: Logo -->
+  <a routerLink="/" class="navbar-logo">Kulaklık Satış</a>
+
+  <!-- Center: Search Bar -->
+  <div class="navbar-search-container">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="search-field">
+      <input matInput placeholder="Ürün, marka veya kategori ara...">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div>
+
+  <!-- Right Side: Action Buttons -->
+  <div class="navbar-actions">
+    <button mat-icon-button aria-label="Profil" routerLink="/login" matTooltip="Profil">
+      <mat-icon>person</mat-icon>
+    </button>
+    <button mat-icon-button aria-label="Sepet" matTooltip="Sepet">
+      <mat-icon>shopping_cart</mat-icon>
+    </button>
+  </div>
 </mat-toolbar>

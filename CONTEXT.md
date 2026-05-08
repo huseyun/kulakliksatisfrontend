@@ -137,6 +137,16 @@ environments/
   - Mat-table kısmı ortak `admin-items-table` component'ine çıkarıldı (Refactoring).
   - `AdminSellersService` oluşturuldu (`getAllSellers`, `getItemsBySellerId`).
   - İkinci sekmede sol tarafta mat-nav-list ile satıcılar listelendi, seçildiğinde o satıcının ürünleri sağ tarafta listelendi.
+- ✅ Faz 29: Ana Sayfa ve Navbar Yapılandırılması
+  - Navbar (`header.component`): Sol kısma logoyu temsilen `routerLink="/"` metni, ortaya arama çubuğu (şimdilik placeholder), sağ kısma profil (placeholder) ve sepet (placeholder) butonları eklenecek şekilde Flexbox yapısı kuruldu.
+  - Ana Sayfa (`home.component`): CSS Grid ve Flexbox kullanılarak iki sütunlu düzene geçildi.
+  - Sol Menü: "Kategoriler" başlığı altında şimdilik placeholder olarak "Kulaküstü" ve "Kulakiçi" eklendi.
+- ✅ Faz 30: Önerilen Ürünlerin Listelenmesi (Editörün Seçimi)
+  - `ItemSummaryResponse` modeline `isRecommended` alanı eklendi.
+  - `HomeService` oluşturuldu ve `GET /api/items/recommended` endpoint'i bağlandı.
+  - Ana sayfada orta alanda "Editörün Seçimi" başlığı altında, backend'den gelen ürünlerin listelenmesi sağlandı.
+  - Görsel yüklenemediğinde sonsuz döngüye girmemesi için `(error)` event'i ile güvenli fallback (mat-icon) mekanizması yapıldı.
+  - Zone.js bazlı değişiklik algılama (Change Detection) problemini aşmak için `ChangeDetectorRef.detectChanges()` entegre edildi.
 - ✅ Faz 23: Merkezi Hata Yönetim Sistemi
   - models/error.model.ts: Backend ErrorResponse/ValidationErrorResponse DTO'ları
   - core/services/snackbar.service.ts: showError, showSuccess, showWarning metodları
@@ -162,6 +172,12 @@ environments/
   - Otomatik 401 handling (logout + login redirect)
   - Auth Guard ile route koruması hazır
   - Role Guard ile rol bazlı route koruması hazır
+
+- ✅ Ana Sayfa ve Üst Menü (Home & Navbar)
+  - Üst menüde logo (ana sayfaya linkli), arama çubuğu (placeholder) ve profil/sepet (placeholder) ikonları mevcut.
+  - Ana sayfa sol menüsünde "Kategoriler" (Kulaküstü, Kulakiçi - placeholder) bulunuyor.
+  - Ana sayfada "Editörün Seçimi" (Önerilen ürünler) alanı aktif ve ürünler doğrudan backend'den `HomeService` ile çekilip dinamik olarak listeleniyor.
+  - Bozuk ürün görsellerine karşı güvenli hata yakalama (placeholder ikon) entegreli.
 
 - ✅ Authorization & Role Management
   - JWT token decode ediliyor (jwt-decode kütüphanesi)
@@ -235,6 +251,8 @@ environments/
   - Tüm satıcıları listeler
 - ✅ GET /api/admin/sellers/{sellerId}/items → ItemSummaryResponse[] (ENTEGRE EDİLDİ)
   - Seçilen satıcının ürünlerini listeler
+- ✅ GET /api/items/recommended → ItemSummaryResponse[] (ENTEGRE EDİLDİ)
+  - Editörün seçimi (önerilen) ürünleri listeler (Home sayfası)
 
 ## Backend Hata Yapısı
 - GlobalExceptionHandler tüm hataları ErrorResponse DTO'su ile döndürüyor
@@ -259,6 +277,8 @@ environments/
 - RoleGuard /admin route'unda aktif kullanılıyor.
 - SnackbarService ile merkezi bildirim yönetimi (hata, başarı, uyarı).
 - ErrorMessageService ile errorCode → Türkçe mesaj mapping.
+- Ana sayfa tasarımı oluşturuldu ve önerilen ürünler (Editörün Seçimi) dinamik olarak backend'den listeleniyor.
+- Arama çubuğu, profil, sepet ve kategoriler şu an için placeholder (yer tutucu) durumunda.
 
 ## Sonraki Adım
 - Kullanıcılar sekmesindeki diğer alt sekmeler aktifleştirilebilir (Adminler, Satıcılar, Alışverişçiler)
