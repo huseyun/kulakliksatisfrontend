@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { UserResponse, UserPasswordUpdateRequest, UserUpdateRequest } from '../../../models/user.model';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,6 +14,10 @@ export class AdminUsersService {
 
   getAllUsers(): Observable<UserResponse[]> {
     return this.http.get<UserResponse[]>(`${environment.apiUrl}/admin/users`);
+  }
+
+  getUserById(id: number): Observable<UserResponse> {
+    return this.http.get<UserResponse>(`${environment.apiUrl}/admin/users/${id}`);
   }
 
   updatePassword(userId: number, request: UserPasswordUpdateRequest): Observable<void> {

@@ -18,6 +18,12 @@ export class ErrorMessageService {
     [EErrorCode.SHOPPER_NOT_FOUND]: 'Alışverişçi bulunamadı.',
     [EErrorCode.ITEM_NOT_FOUND]: 'Ürün bulunamadı.',
     [EErrorCode.USERTYPE_NOT_FOUND]: 'Kullanıcı tipi bulunamadı.',
+    [EErrorCode.CATEGORY_NOT_FOUND]: 'Kategori bulunamadı.',
+    [EErrorCode.CART_NOT_FOUND]: 'Sepet bulunamadı.',
+    [EErrorCode.AUTOEQ_HEADPHONE_NOT_FOUND]: 'Kulaklık ölçümü bulunamadı.',
+    [EErrorCode.AUTOEQ_INVALID_ID]: "Geçersiz kulaklık ID'si.",
+    [EErrorCode.AUTOEQ_NOT_SUPPORTED_FOR_PRODUCT]: 'Bu ürün için ses simülasyonu mevcut değil.',
+    [EErrorCode.AUTOEQ_SERVICE_UNAVAILABLE]: 'Ses simülasyonu servisi şu an kullanılamıyor.',
     [EErrorCode.VALIDATION_ERROR]: 'Girdiğiniz bilgilerde hatalar var.'
   };
 

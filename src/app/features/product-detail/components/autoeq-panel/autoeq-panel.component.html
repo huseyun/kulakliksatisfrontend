@@ -1,0 +1,108 @@
+<div class="autoeq-panel">
+  <div class="panel-header">
+    <mat-icon class="panel-icon">graphic_eq</mat-icon>
+    <h3 class="panel-title">Ses Simülasyonu</h3>
+  </div>
+
+  <mat-divider />
+
+  @if (!autoeqId()) {
+    <div class="not-supported">
+      <mat-icon>info_outline</mat-icon>
+      <p>Bu ürün için ses simülasyonu mevcut değil.</p>
+    </div>
+  } @else if (!currentEq()) {
+    <!-- Kulaklık seçim + başlat ekranı -->
+    <p class="panel-description">
+      Kendi kulaklığını seçerek bu ürünün nasıl ses verdiğini dinle.
+    </p>
+
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Kulaklığını ara</mat-label>
+      <input
+        matInput
+        [formControl]="searchControl"
+        [matAutocomplete]="auto"
+        placeholder="Örn: Sony WH-1000XM5"
+        style="color: rgba(0,0,0,0.87); -webkit-text-fill-color: rgba(0,0,0,0.87);"
+      />
+      <mat-icon matSuffix>search</mat-icon>
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        [displayWith]="displayFn"
+        (optionSelected)="onOptionSelected($event)"
+      >
+        @if (isSearchLoading()) {
+          <mat-option disabled>
+            <mat-spinner diameter="18" class="inline-spinner" />
+            Aranıyor...
+          </mat-option>
+        } @else {
+          @for (entry of suggestions(); track entry.id) {
+            <mat-option [value]="entry">
+              <span class="suggestion-label">{{ entry.label }}</span>
+              <span class="suggestion-meta"> &mdash; {{ entry.form }}, {{ entry.source }}</span>
+            </mat-option>
+          }
+          @if (suggestions().length === 0 && searchControl.value && !isSearchLoading()) {
+            <mat-option disabled>Sonuç bulunamadı.</mat-option>
+          }
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
+    @if (errorMessage()) {
+      <p class="error-text">{{ errorMessage() }}</p>
+    }
+
+    <button
+      mat-raised-button
+      color="primary"
+      class="start-btn"
+      [disabled]="!selectedHeadphone() || isEqualizing()"
+      (click)="startSimulation()"
+    >
+      <mat-icon>play_circle</mat-icon>
+      {{ isEqualizing() ? 'Hazırlanıyor...' : 'Simülasyonu Başlat' }}
+    </button>
+  } @else {
+    <!-- Oynatıcı ekranı -->
+    <div class="player-section">
+      <div class="player-headphone-label">
+        <mat-icon>headphones</mat-icon>
+        <span>{{ selectedHeadphone()?.label }}</span>
+      </div>
+
+      <div class="player-controls">
+        <button mat-icon-button class="play-btn" (click)="togglePlayPause()">
+          <mat-icon>{{ isPlaying() ? 'pause_circle' : 'play_circle' }}</mat-icon>
+        </button>
+
+        <button
+          mat-stroked-button
+          class="bypass-btn"
+          [class.bypass-active]="eqBypassed()"
+          (click)="toggleBypass()"
+        >
+          <mat-icon>{{ eqBypassed() ? 'equalizer' : 'tune' }}</mat-icon>
+          {{ eqBypassed() ? 'EQ Kapalı' : 'Simülasyonsuz Karşılaştır' }}
+        </button>
+      </div>
+
+      @if (errorMessage()) {
+        <p class="error-text">{{ errorMessage() }}</p>
+      }
+
+      <div class="eq-info">
+        <span>Preamp: {{ currentEq()!.preampDb | number:'1.1-1' }} dB</span>
+        <span>&bull; {{ currentEq()!.filters.length }} filtre</span>
+        <span>&bull; {{ currentEq()!.fs }} Hz</span>
+      </div>
+
+      <button mat-button class="reset-btn" (click)="resetSimulation()">
+        <mat-icon>refresh</mat-icon>
+        Farklı kulaklık seç
+      </button>
+    </div>
+  }
+</div>

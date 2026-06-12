@@ -1,0 +1,69 @@
+<div class="product-detail-layout">
+  <div class="back-bar">
+    <button mat-button (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+      Geri
+    </button>
+  </div>
+
+  @if (isLoading()) {
+    <div class="loading-container">
+      <mat-spinner></mat-spinner>
+    </div>
+  } @else if (errorMessage()) {
+    <div class="error-container">
+      <mat-icon class="error-icon">error_outline</mat-icon>
+      <p>{{ errorMessage() }}</p>
+      <button mat-stroked-button (click)="goBack()">Ana Sayfaya Dön</button>
+    </div>
+  } @else if (item(); as p) {
+    <div class="product-content">
+
+      <!-- Sol: Büyük ürün fotoğrafı -->
+      <div class="product-image-section">
+        @if (mainImageUrl() && !imageError()) {
+          <img
+            class="product-main-image"
+            [src]="mainImageUrl()!"
+            [alt]="p.title"
+            (error)="imageError.set(true)"
+          />
+        } @else {
+          <div class="image-placeholder">
+            <mat-icon>image_not_supported</mat-icon>
+          </div>
+        }
+      </div>
+
+      <!-- Sağ: Başlık, fiyat, bilgi, AutoEQ -->
+      <div class="product-info-section">
+        <h1 class="product-title">{{ p.title }}</h1>
+
+        @if (p.price !== null) {
+          <p class="product-price">
+            {{ p.price | currency:'TRY':'symbol':'1.2-2':'tr-TR' }}
+          </p>
+        } @else {
+          <p class="product-price product-price--unavailable">Fiyat belirtilmemiş</p>
+        }
+
+        @if (p.description) {
+          <p class="product-description">{{ p.description }}</p>
+        }
+
+        <p class="product-seller">
+          Satıcı:
+          <span>{{ p.seller.companyName || p.seller.username }}</span>
+        </p>
+
+        <div class="autoeq-section">
+          <app-autoeq-panel
+            [productId]="p.id"
+            [autoeqId]="p.autoeqId"
+          />
+        </div>
+      </div>
+
+    </div>
+  }
+</div>

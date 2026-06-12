@@ -7,6 +7,13 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', loadChildren: () => import('./features/login/login.module').then(m => m.LoginModule) },
   { path: 'admin', loadChildren: () => import('./features/admin/admin.module').then(m => m.AdminModule) },
+  {
+    path: 'products/:id',
+    loadComponent: () =>
+      import('./features/product-detail/product-detail.component').then(
+        m => m.ProductDetailComponent
+      ),
+  },
   { path: '**', component: NotFoundComponent }
 ];
 

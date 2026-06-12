@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable, catchError, throwError, map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { LoginRequest, LoginResponse, JwtPayload, UserInfo, UserRole } from '../../models/auth.model';
+import { ShopperCreateRequest, ShopperResponse } from '../../models/user.model';
 import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
@@ -21,6 +22,10 @@ export class AuthService {
   login(username: string, password: string): Observable<LoginResponse> {
     const loginRequest: LoginRequest = { username, password };
     return this.http.post<LoginResponse>(`${environment.apiUrl}/auth/login`, loginRequest);
+  }
+
+  register(request: ShopperCreateRequest): Observable<ShopperResponse> {
+    return this.http.post<ShopperResponse>(`${environment.apiUrl}/auth/register`, request);
   }
 
   /**

@@ -22,7 +22,7 @@
 
     <div *ngIf="!isLoading && recommendedItems.length > 0" class="item-grid">
       <!-- Dynamic Items -->
-      <mat-card class="item-card" *ngFor="let item of recommendedItems">
+      <mat-card class="item-card" *ngFor="let item of recommendedItems" [routerLink]="['/products', item.id]" style="cursor: pointer;">
         <img mat-card-image *ngIf="item.thumbnailImageUrl && !imageErrors[item.id]" [src]="item.thumbnailImageUrl" [alt]="item.title" (error)="onImageError(item.id)">
         <div class="image-placeholder" *ngIf="!item.thumbnailImageUrl || imageErrors[item.id]">
           <mat-icon>image_not_supported</mat-icon>
@@ -32,7 +32,7 @@
           <p class="item-price">{{ item.price | currency:'TRY':'symbol':'1.2-2':'tr-TR' }}</p>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-button color="primary">Sepete Ekle</button>
+          <button mat-button color="primary" (click)="$event.stopPropagation()">Sepete Ekle</button>
         </mat-card-actions>
       </mat-card>
     </div>

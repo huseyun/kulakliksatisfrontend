@@ -7,6 +7,11 @@ html, body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+/* Mat-autocomplete panel — metin rengi */
+.mat-mdc-autocomplete-panel .mat-mdc-option {
+  color: rgba(0, 0, 0, 0.87);
+}
+
 /* Snackbar stilleri */
 .snackbar-error {
   background-color: #f44336 !important;
